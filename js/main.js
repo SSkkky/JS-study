@@ -1,109 +1,74 @@
-let items = [];
+let itmes = [];
 
 fetch('./data.json')
-    .then(obj => obj.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
         items = data.items;
-        imgFun();
+        mainTag();
     })
 
+function mainTag(){
+    let innerTag = '';
 
-function imgFun() {
-    const popOverlay = document.querySelector('.poptrox-overlay');
-    let tag = '';
+    items.forEach(function(el, i){
+        innerTag += `<div class="thumb data-num:${i}">
+        <a href="${el.detail}" class="image"><img src="${el.thumb}" alt="" /></a><h2>${el.name}</h2></div>`
+    });
 
-    items.forEach(function (obj) {
-        tag += ` <div class="thumb ">
-    <a href="${obj.detail}" class="image"><img src="${obj.thumb}" alt="" /></a>
-    <h2>${obj.name}</h2>                
-</div>`
-    })
+    const elMain = document.querySelector('#main')
+    elMain.innerHTML = innerTag;
 
+    const elPopOver = document.querySelector('.poptrox-overlay')
+    const elThumb = document.querySelectorAll('.thumb')
+    const popPicImg = document.querySelector('.pic img')
+    const popPicCap = document.querySelector('.caption h2')
+    const popPicBtn = document.querySelector('.poptrox-popup .closer')
 
-    const elMain = document.querySelector('#main');
-    elMain.innerHTML = tag;
-
-    const divThumb = document.querySelectorAll('.thumb');
-
-    divThumb.forEach(function (el, i) {
-        el.onclick = function (e) {
+    elThumb.forEach(function(el, key){
+        el.onclick = function(e){
             e.preventDefault();
+            elPopOver.style.display = "block";
+            console.log(``)
 
-            popOverlay.setAttribute('style', 'display:block');
-
-            const popPic = popOverlay.querySelector('img')
-            const popPicCap = popOverlay.querySelector('.caption h2')
-            let getSrc = this.querySelector('img').getAttribute('src')
-            let setSrc = this.querySelector('a').getAttribute('href')
-
-            popPic.setAttribute('src', `${setSrc}`)
-
-            let cap = this.querySelector('h2').innerText;
-            popPicCap.innerText = cap;
-
-            const closer = document.querySelector('.closer')
-            closer.onclick = function () {
-                popOverlay.setAttribute('style', 'display:none');
+            popPicImg.setAttribute('src', `${items[key].detail}`);
+            popPicCap.innerText = `${items[key].name}`
+            
+            popPicBtn.onclick = function(){
+                elPopOver.style.display = "none";
             }
 
-            const thisIndex = this.index;
-            const navPre = document.querySelector('.nav-previous')
+            const navPrev = document.querySelector('.nav-previous')
             const navNext = document.querySelector('.nav-next')
-            const popCaption = document.querySelector('.poptrox-overlay .caption h2')
 
-            navPre.onclick = function () {
-                if(i === 0){
-                    i = 0;
-                    window.alert('first page')
-                }
-
-                let count = i;
-                count--;
-                popPic.setAttribute('src', `${items[count].detail}`)
-                popCaption.innerText = `${items[count].name}`;
-                i--;
-                }
-
-            navNext.onclick = function () {
-                if(i === 11){
-                    i = 11;
-                    window.alert('last page')
-                }
-
-                let count = i;
-                count++;
-                popPic.setAttribute('src', `${items[count].detail}`)
-                popCaption.innerText = `${items[count].name}`;
-                i++;
+            navPrev.onclick = function(){
+                key--;
+                if(key === -1){window.alert('This is first page :)'); key=0;}
+                popPicImg.setAttribute('src', `${items[key].detail}`);
+            }
+            navNext.onclick = function(){
+                key++;
+                if(key === 12){window.alert('This is last page :)'); key=11;}
+                popPicImg.setAttribute('src', `${items[key].detail}`);
             }
         }
     })
 }
 
-const footer = document.querySelector('#footer');
-const aboutNav = document.querySelector('#header nav');
+const footer = document.querySelector('#footer')
+const aboutBtn = document.querySelector('#header nav ul li a')
 
-aboutNav.onclick = function () {
-    if (footer.classList.contains('active') == false) {
-        footer.classList.add('active');
-    } else {
-        footer.classList.remove('active');
-    }
-}
+aboutBtn.onclick = function(){footer.classList.toggle('active')}
 
-
-const sendBtn = document.querySelector('.actions .primary');
+const sendBtn = document.querySelector('.actions .primary')
 const nameValue = document.querySelector('#name');
 const emailValue = document.querySelector('#email');
 
-sendBtn.onclick = function (e) {
+sendBtn.onclick = function(e){
     e.preventDefault();
-
-    console.log('nameValue=' + nameValue);
-
-    if (nameValue.value !== '' && emailValue.value !== '') {
-        footer.classList.remove('active');
-    } else {
-        window.alert('No information has been entered')
+    if(nameValue.value !== '' && emailValue.value !== ''){
+        window.alert('Thank you for your message. I will reply to you soon!')
+        footer.classList.toggle('active')
+    }else{
+        window.alert('Warning! None entered!')
     }
 }
