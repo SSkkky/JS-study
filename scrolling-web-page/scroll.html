@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scroll</title>
+</head>
+<body style="height: 5000px; margin:0;">
+    <!-- 배경과 글자 속도가 다른 시차스크롤 = 이쁘다 -->
+
+
+    <script>
+        let i = 0;
+        let status = {y:0, dy:0, state:true} //초기
+        document.body.style.height = '5000px';
+        
+        window.onscroll = function(e){
+            //방향, 여러번 실행
+            let scrollTop = window.pageYOffset
+            //상단으로부터 스크롤이 움직인 만큼의 수직 값
+            //console.log('window.pageYOffset=' + window.pageYOffset)
+
+            status.y = scrollTop
+
+
+
+            /*삼항연산자
+            (조건) ? '맞을때':'틀릴때';*/
+
+            //status 업데이트!
+            //수치를 비교해서 사용자가 위로 올렸는지 내렸는지 판단함
+            status.state = (status.dy < status.y) ? true : false;
+            status.dy = status.y
+            //이전 스크롤수직값보다 스크롤 수직값이 크면(1차이날듯) 내린거고 높으면 올린거겠지
+
+            //console.log(status.state)
+            /*
+            if(status.state){
+                console.log()
+            }else{
+                console.log()
+            }
+            */
+
+            //한번만 실행하도록
+            let setTime;
+            clearTimeout(setTime);//실행할라하면...삭제
+            setTime = setTimeout(function(){
+                // console.log('실행')
+            }, 50);
+
+
+            // console.log(document.body.scrollHeight)
+            // console.log(window.pageYOffset + window.innerHeight)
+            // innerHeight : 네비게이션 창을 제외한 높이
+
+            i++;
+            //console.log('i=' + i)
+        }
+    </script>
+
+    <header id="header">
+        <nav>
+            <a href="#">menu1</a>
+            <a href="#">menu2</a>
+            <a href="#">menu3</a>
+        </nav>
+    </header>
+
+    <main>
+        <div id="spot"></div>
+        <section> 01 </section>
+        <section> 02 </section>
+        <section> 03 </section>
+    </main>
+
+    <aside></aside>
+
+
+
+    <!-------------------- style --------------------->
+    <style>
+        header{
+            background-color: yellowgreen;
+            padding: 30px;
+            position: fixed;
+            width: 100%;
+            text-align:  center;
+            transition: 1s;
+        }
+        header.active{transform: translateY(-100%);}
+
+        section{ 
+            height:100vh; 
+            font-size:5rem;
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+        }
+
+        #spot{height: 100vh; background-color: burlywood;}
+        aside{
+            position: fixed; right: 50px; bottom: 50px;
+            border-radius: 100%;
+            width: 60px; height: 60px;
+            background-color: black;
+            opacity: 0;
+            transition: 0.5s;
+        }
+        aside.active{opacity: 1;}
+
+    </style>
+    
+
+
+
+    <script>
+        const elSection = document.querySelectorAll('section'),
+            elMenu = document.querySelectorAll('#header a'),
+            elAside = document.querySelector('aside');
+
+            
+
+        elMenu.forEach(function(menu, key){
+            menu.onclick = function(e){
+                e.preventDefault();
+                elSection[key].scrollIntoView({behavior:'smooth'}); //특정 요소 위치로 화면을 이동시키는 메소드
+            }
+        })
+
+
+        //onscroll은 중복적용이 안될수있어서 무한추가 가능한 addEvent~를 쓴당
+        window.addEventListener('scroll', function(){
+            if(status.state){ //true(내리면)
+                header.classList.add('active');
+            } else{
+                header.classList.remove('active');
+            }
+
+            /*
+            console.log('elSection[0].offsetTop='+elSection[0].offsetTop) //위로부터 얼마나 떨어져있는지(=pageYOffset과 같음)
+            console.log('window.pageYOffset' + window.pageYOffset)
+            */
+
+            // 1번째 컨텐츠가 상단에 닿는 시점에 aside가 나타나게
+            if (elSection[0].getBoundingClientRect().top < 0) { //elSection[0].offsetTop < window.pageYOffset
+                elAside.classList.add('active');
+            } else {
+                elAside.classList.remove('active');
+            }
+            
+            console.log(
+                elSection[0].getBoundingClientRect() //~으로부터 얼마나 떨어져있느냐~(상대적)
+            )
+        })
+        
+        elAside.onclick = function (){ //최상단으로 이동
+            window.scrollTo({
+                top:0,
+                left:0,
+                behavior:'smooth'
+            }) 
+        }
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
