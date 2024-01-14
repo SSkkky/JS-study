@@ -1,0 +1,28 @@
+// $변수 : 값;
+
+@mixin flex(){
+    display: flex;
+    justify-content: space-between;
+    @content
+};
+
+@mixin font-400($fs){
+    font-size: $fs;
+    font-weight: 400;
+    @content
+};
+
+@mixin font-700($fs){
+    font-size: $fs;
+    font-weight: 700;
+    @content
+};
+
+// 반응형
+$mobile: 768px;
+
+@mixin mobile {
+    @media (max-width: #{$mobile}) {
+      @content;
+    }
+};

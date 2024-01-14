@@ -1,0 +1,57 @@
+@import "_common";
+
+// -----------main-----------
+main {
+    .main-contents {
+        width: 100%;
+        height: 1130px;
+        background: center / cover no-repeat url("../imgs/bg-image1.png");
+        @include mobile{height: 100vh;}
+    }
+
+    .new-collection {
+        margin: 140px auto;
+        max-width: 1540px;
+        @include mobile{margin: 60px auto;}
+
+        h3 {
+            font-size : 36px;
+            font-weight: 400;
+            text-align: center;
+            @include mobile{font-size: 18px;}
+        }
+
+        .new-collection-contents {
+            margin-top:80px;
+            display: flex;
+            gap: 20px;
+
+            @include mobile{
+                flex-direction: column;
+                margin-top: 20px;
+            }
+
+            div{
+                width: 500px;
+                display: flex;
+                flex-wrap: nowrap;
+                flex-direction: column;
+                gap: 20px;
+                @include mobile{width:100%;}
+            }
+
+            p{
+                overflow: hidden;
+                
+                img{
+                    width:100%;
+                    transition: 0.5s;
+                }
+
+                img:hover{
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+}
