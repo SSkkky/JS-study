@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>grid</title>
+    </head>
+
+    <body>
+        <article>
+            <h2>grid</h2>
+            <div>
+                <figure><img src="imgs/Rectangle 68.png" alt=""></figure>
+                <figure><img src="imgs/Rectangle 69.png" alt=""></figure>
+                <figure><img src="imgs/Rectangle 74.png" alt=""></figure>
+                <figure><img src="imgs/Rectangle 73.png" alt=""></figure>
+                <figure><img src="imgs/Rectangle 71.png" alt=""></figure>
+                <figure><img src="imgs/Rectangle 75.png" alt=""></figure>
+            </div>
+        </article>
+    </body>
+
+    <style>
+        article {}
+
+        article div {
+            display : grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* grid-auto-rows: 200px; */
+            grid-template-areas: 'a b c'
+                                 'a d c'
+                                 'e d f';
+            gap: 10px;
+        }
+
+        article div > figure {
+            margin : 0;
+            height: 100%; 
+            background-color: rgb(27,19,19);
+            overflow: hidden;
+        }
+
+        figure img{
+            width: 100%;
+            height: 100%;
+            transition: 0.5s;
+        }
+
+        figure:hover img{transform: scale(1.2);}
+
+        /* article div > figure:nth-child(1) {
+            grid-column: 1 / span 2;
+            grid-row: 1;
+        }
+
+        article div > figure:nth-child(2) {
+            grid-row: 1 / span 3;
+        }
+
+        article div > figure:nth-child(3),
+        article div > figure:nth-child(4){
+            grid-row: 2 / span 1;
+        }
+
+        article div > figure:nth-child(5),
+        article div > figure:nth-child(6) {
+            grid-row: 3 / span 1;
+        } */
+
+        article div > figure:nth-child(1){grid-area : a;}
+        article div > figure:nth-child(2){grid-area : b;}
+        article div > figure:nth-child(3){grid-area : c;}
+        article div > figure:nth-child(4){grid-area : d;}
+        article div > figure:nth-child(5){grid-area : e;}
+        article div > figure:nth-child(6){grid-area : f;}
+
+    </style>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>storage - index</title>
+        <script defer src="./common.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <a href="./index.html">HOME</a>
+                <a href="./service.html">SERVICE</a>
+                <a href="./board.html">BOARD</a>
+            </nav>
+        </header>
+        <main> This is index page </main>
+
+        <aside>
+            <img src="./img/news1.png">
+            <p>
+                <input id="check" type="checkbox">
+                <label for="check"></label>오늘하루동안보지않기
+                <button>닫기</button>
+            </p>
+        </aside>
+
+        <style>
+            aside{display: none;}
+            input[type='checkbox']{display: none;}
+            label{
+                display: inline-block;
+                width: 30px;
+                height: 30px;
+                border-radius: 100%;
+                background-color: gray;
+                cursor: pointer;
+            }
+            #check:checked + label{
+                background-color: red;
+            }
+
+
+            
+
+
+
+        </style>
+    </body>
+
+</html>
